@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useBenovitzContent, ContentFormat } from './benovitz-content-client';
 
 // Configuration - Production API URL on Render
-const API_URL = process.env.REACT_APP_BENOVITZ_API_URL || 'https://benovitz-content-api.onrender.com';
+const API_URL = process.env.REACT_APP_BENOVITZ_API_URL || 'https://moshe-benovitz-content-generator-api.onrender.com';
 
 interface ContentGeneratorProps {
   className?: string;

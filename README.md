@@ -52,9 +52,9 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 
 The API is deployed and available at:
 
-**Production URL**: `https://benovitz-content-api.onrender.com`
+**Production URL**: `https://moshe-benovitz-content-generator-api.onrender.com`
 
-**Interactive Docs**: https://benovitz-content-api.onrender.com/docs
+**Interactive Docs**: https://moshe-benovitz-content-generator-api.onrender.com/docs
 
 ### API Endpoints
 
@@ -71,7 +71,7 @@ The API is deployed and available at:
 
 ```bash
 # Generate a shiur outline
-curl -X POST "https://benovitz-content-api.onrender.com/generate" \
+curl -X POST "https://moshe-benovitz-content-generator-api.onrender.com/generate" \
   -H "Content-Type: application/json" \
   -d '{
     "topic": "Making davening meaningful for teens",
@@ -79,7 +79,7 @@ curl -X POST "https://benovitz-content-api.onrender.com/generate" \
   }'
 
 # Generate a social media post
-curl -X POST "https://benovitz-content-api.onrender.com/generate" \
+curl -X POST "https://moshe-benovitz-content-generator-api.onrender.com/generate" \
   -H "Content-Type: application/json" \
   -d '{
     "topic": "What more can we do?",
@@ -93,7 +93,7 @@ curl -X POST "https://benovitz-content-api.onrender.com/generate" \
 // Using the provided client SDK
 import BenovitzContentClient from './client/benovitz-content-client';
 
-const client = new BenovitzContentClient('https://benovitz-content-api.onrender.com');
+const client = new BenovitzContentClient('https://moshe-benovitz-content-generator-api.onrender.com');
 
 // Generate content
 const article = await client.generateArticle('Authentic religious growth');
@@ -110,7 +110,7 @@ import { useBenovitzContent } from './client/benovitz-content-client';
 
 function ContentGenerator() {
   const { generate, isLoading, error, content } = useBenovitzContent({
-    baseUrl: 'https://benovitz-content-api.onrender.com'
+    baseUrl: 'https://moshe-benovitz-content-generator-api.onrender.com'
   });
 
   const handleGenerate = async () => {
@@ -205,7 +205,7 @@ The generator captures Rabbi Moshe Benovitz's distinctive voice:
 
 ### Current Production (Render)
 
-The API is deployed on Render at `https://benovitz-content-api.onrender.com`
+The API is deployed on Render at `https://moshe-benovitz-content-generator-api.onrender.com`
 
 To deploy your own instance:
 

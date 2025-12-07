@@ -12,7 +12,7 @@ class BenovitzContentClient {
    * @param {string} [options.apiKey] - Optional API key
    */
   constructor(options = {}) {
-    this.baseUrl = options.baseUrl || 'https://benovitz-content-api.onrender.com';
+    this.baseUrl = options.baseUrl || 'https://moshe-benovitz-content-generator-api.onrender.com';
     this.apiKey = options.apiKey;
   }
 

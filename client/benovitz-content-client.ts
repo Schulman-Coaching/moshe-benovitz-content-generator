@@ -45,7 +45,7 @@ export class BenovitzContentClient {
   private apiKey?: string;
 
   constructor(options: ClientOptions = {}) {
-    this.baseUrl = options.baseUrl || 'https://benovitz-content-api.onrender.com';
+    this.baseUrl = options.baseUrl || 'https://moshe-benovitz-content-generator-api.onrender.com';
     this.apiKey = options.apiKey;
   }
 
