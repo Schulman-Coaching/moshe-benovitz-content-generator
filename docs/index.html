@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbi Moshe Benovitz Content Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #1a365d;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.4);
+        }
+
+        .btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #38a169 0%, #276749 100%);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.4);
+        }
+
+        .output-section {
+            display: none;
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .output-content {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 15px;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            border: 1px solid #fc8181;
+            color: #c53030;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.visible {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #3182ce;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feedback-section {
+            background: #ebf8ff;
+            border: 1px solid #90cdf4;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .feedback-section h3 {
+            color: #2c5282;
+            margin-bottom: 12px;
+        }
+
+        .format-description {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 8px;
+        }
+
+        .api-info {
+            background: #edf2f7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .api-info code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #90cdf4;
+        }
+
+        .voice-profile {
+            display: none;
+        }
+
+        .voice-profile.visible {
+            display: block;
+        }
+
+        .profile-section {
+            margin-bottom: 16px;
+        }
+
+        .profile-section h4 {
+            color: #2c5282;
+            margin-bottom: 8px;
+        }
+
+        .profile-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .profile-section li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .profile-section li:before {
+            content: "•";
+            color: #3182ce;
+            position: absolute;
+            left: 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: #cbd5e0;
+        }
+
+        .tab.active {
+            background: #3182ce;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rabbi Moshe Benovitz</h1>
+            <p>Content Generator - NCSY Voice & Vision</p>
+        </header>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('generate')">Generate Content</button>
+                <button class="tab" onclick="showTab('profile')">Voice Profile</button>
+                <button class="tab" onclick="showTab('feedback')">Feedback</button>
+            </div>
+
+            <!-- Generate Tab -->
+            <div id="generate-tab" class="tab-content active">
+                <form id="generate-form">
+                    <div class="form-group">
+                        <label for="topic">Topic</label>
+                        <input
+                            type="text"
+                            id="topic"
+                            placeholder="e.g., Making tefillah meaningful for teens, Authentic religious growth"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="format">Content Format</label>
+                        <select id="format">
+                            <option value="article">Article/Essay (800-1200 words)</option>
+                            <option value="social_media">Social Media Post</option>
+                            <option value="shiur_outline">Shiur Outline (NCSY Kollel style)</option>
+                            <option value="short_reflection">Short Reflection (75-150 words)</option>
+                            <option value="advisor_training">Advisor Training Content</option>
+                        </select>
+                        <p class="format-description" id="format-desc">Long-form content with opening hook, Torah perspective, and practical application</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="context">Additional Context (optional)</label>
+                        <textarea
+                            id="context"
+                            placeholder="e.g., For NCSY summer program, Target audience is new advisors"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" id="submit-btn">Generate Content</button>
+                </form>
+
+                <div class="error-message" id="error"></div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating content in Rabbi Benovitz's voice...</p>
+                </div>
+
+                <div class="output-section" id="output-section">
+                    <div class="output-header">
+                        <h3>Generated Content</h3>
+                        <button class="btn btn-secondary" onclick="copyContent()">Copy to Clipboard</button>
+                    </div>
+                    <div class="output-content" id="output"></div>
+                </div>
+            </div>
+
+            <!-- Voice Profile Tab -->
+            <div id="profile-tab" class="tab-content">
+                <h2>Voice Profile: Rabbi Moshe Benovitz</h2>
+                <p style="margin-bottom: 20px; color: #718096;">
+                    NCSY International Managing Director | Longtime NCSY Kollel Director
+                </p>
+
+                <div class="profile-section">
+                    <h4>Tone</h4>
+                    <ul>
+                        <li>Warm, approachable, and genuinely caring</li>
+                        <li>Intellectually rigorous but accessible</li>
+                        <li>Uses humor and storytelling to illustrate points</li>
+                        <li>Direct and honest, even about difficult topics</li>
+                        <li>Encouraging without being preachy</li>
+                        <li>Speaks as a mentor and friend, not just authority figure</li>
+                    </ul>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Style Patterns</h4>
+                    <ul>
+                        <li>Uses relatable pop culture and sports analogies</li>
+                        <li>Asks thought-provoking questions that challenge assumptions</li>
+                        <li>Distinguishes between surface-level and deep transformation</li>
+                        <li>Emphasizes authenticity over performance</li>
+                        <li>Shares personal anecdotes and real experiences with teens</li>
+                        <li>Builds arguments logically while remaining conversational</li>
+                    </ul>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Core Themes</h4>
+                    <ul>
+                        <li>Authentic religious growth vs. superficial behavior change</li>
+                        <li>The difference between behavior modification and personality development</li>
+                        <li>Making Halacha beloved rather than burdensome</li>
+                        <li>Long-term mentorship and lasting relationships</li>
+                        <li>"What more can we do?" - pushing creative limits in education</li>
+                        <li>The value of Torah learning as transformative experience</li>
+                    </ul>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Common Phrases</h4>
+                    <ul>
+                        <li>"What more can we do?"</li>
+                        <li>"Here's the thing..."</li>
+                        <li>"The question we need to ask is..."</li>
+                        <li>"What I've seen over 20+ years..."</li>
+                        <li>"It's not about... it's about..."</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feedback Tab -->
+            <div id="feedback-tab" class="tab-content">
+                <h2>Provide Feedback</h2>
+                <p style="margin-bottom: 20px; color: #718096;">
+                    Help us improve the content generator by sharing your thoughts.
+                </p>
+
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="feedback-type">Feedback Type</label>
+                        <select id="feedback-type">
+                            <option value="voice">Voice/Tone Accuracy</option>
+                            <option value="content">Content Quality</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback-text">Your Feedback</label>
+                        <textarea
+                            id="feedback-text"
+                            placeholder="Share your thoughts on how we can improve the tool..."
+                            rows="5"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback-email">Email (optional)</label>
+                        <input
+                            type="email"
+                            id="feedback-email"
+                            placeholder="your@email.com"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn">Submit Feedback</button>
+                </form>
+
+                <div id="feedback-success" style="display: none; margin-top: 20px; padding: 16px; background: #c6f6d5; border-radius: 8px; color: #276749;">
+                    Thank you for your feedback! We appreciate your input.
+                </div>
+            </div>
+
+            <div class="api-info">
+                <strong>API Endpoint:</strong> <code id="api-url">https://benovitz-content-api.onrender.com</code>
+                <br><br>
+                <strong>Documentation:</strong> <a href="https://benovitz-content-api.onrender.com/docs" target="_blank">Interactive API Docs</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with Claude by Schulman Coaching</p>
+            <p><a href="https://github.com/Schulman-Coaching/moshe-benovitz-content-generator" target="_blank">View on GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        const API_URL = 'https://benovitz-content-api.onrender.com';
+
+        const formatDescriptions = {
+            'article': 'Long-form content (800-1200 words) with opening hook, Torah perspective, and practical application',
+            'social_media': 'Short-form posts for NCSY audience with hashtags',
+            'shiur_outline': 'NCSY Kollel-style lecture outline with discussion questions',
+            'short_reflection': 'Brief daily wisdom (75-150 words)',
+            'advisor_training': 'Training content for NCSY advisors and Jewish educators'
+        };
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        // Update format description
+        document.getElementById('format').addEventListener('change', function() {
+            document.getElementById('format-desc').textContent = formatDescriptions[this.value];
+        });
+
+        // Generate content
+        document.getElementById('generate-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const topic = document.getElementById('topic').value;
+            const format = document.getElementById('format').value;
+            const context = document.getElementById('context').value;
+
+            // Show loading, hide others
+            document.getElementById('loading').classList.add('visible');
+            document.getElementById('output-section').classList.remove('visible');
+            document.getElementById('error').classList.remove('visible');
+            document.getElementById('submit-btn').disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        topic: topic,
+                        format: format,
+                        additional_context: context
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to generate content');
+                }
+
+                document.getElementById('output').textContent = data.content;
+                document.getElementById('output-section').classList.add('visible');
+
+            } catch (err) {
+                document.getElementById('error').textContent = err.message;
+                document.getElementById('error').classList.add('visible');
+            } finally {
+                document.getElementById('loading').classList.remove('visible');
+                document.getElementById('submit-btn').disabled = false;
+            }
+        });
+
+        // Copy content
+        function copyContent() {
+            const content = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = originalText, 2000);
+            });
+        }
+
+        // Feedback form
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // In a real implementation, this would send to a backend
+            // For now, we'll just show a success message
+            document.getElementById('feedback-success').style.display = 'block';
+            this.reset();
+
+            setTimeout(() => {
+                document.getElementById('feedback-success').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
